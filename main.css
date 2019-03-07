@@ -1,0 +1,29 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: Karla;
+}
+.main
+/* .low {fill: #90b8da; fill-opacity: .4; }
+.very_low {fill: #d2e2f0; fill-opacity: .4;}
+.high {fill:#4d8dc3; fill-opacity: .4;}
+.very_high{fill:#2171b5; fill-opacity: .4;} */
+.line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+/* Style the dots by assigning a fill and stroke */
+.dot {
+    fill: #ffab00;
+    stroke: #fff;
+}
+  .focus circle {
+  fill: #ffab00;
+  stroke: steelblue;
+}
