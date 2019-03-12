@@ -76,6 +76,35 @@ function myVis([data,geodata]) {
      .attr("class", "y axis")
      .attr("transform", "translate(500,0)")
      .call(yAxis);
+  svg_chart
+     .append('text')
+     .attr('class', 'label')
+     .attr('x', 272)
+     .attr('y', 530)
+     .attr('text-anchor', 'right')
+     .attr('font-size', 14)
+     .attr('font-family', 'Karla')
+     .attr('font-weight', 'bold')
+     .text("Year");
+  svg_chart
+  .append('text')
+        .attr("class", "label")
+        .attr("y",  535)
+        .attr("x", -plotHeight/2 - 50)
+        .attr('text-anchor', 'right')
+        .attr('font-size', 14)
+        .attr("transform", "rotate(-90)")
+        .attr('font-weight', 'bold')
+        .text("Rate per 100K inhabitants")
+  svg_chart.append('text')
+        .attr('class', 'x_axis_label')
+        .attr('x', (450))
+        .attr('y',  height )
+        .attr('text-anchor', 'right')
+        .attr('font-size', 10)
+        .attr('font-family', 'Karla')
+        .attr('text-anchor', 'middle')
+        .text("Source: INEGI, CONAPO, ENIGH 2008") ;
 
   // svg_chart.append("path")
   //     .datum(data) // Binds data to the line
@@ -141,10 +170,11 @@ svg_map.selectAll(".state")
                      .append("path")
                      .attr("class", "state-line")
                      .attr("d", d => line((d)))
-                     // .attr("d",function (geodata,data,d){ if (data.cve_edo===geodata.CVE_ENT){
+                     //.attr("d",function (geodata,data,d){ if (data.cve_edo===geodata.CVE_ENT){
                      //   line((d))
                      // }})
-                     .attr("stroke", '#2171b5')
+                     .attr("stroke", '#D3D3D3')
+                     .attr("fill-opacity",".4")
                      //.attr("stroke", (d,i) => i % 2 ? 'red' : '#2171b5')
 
                      .attr("fill", "none");
