@@ -20,6 +20,17 @@ function myVis([data,geodata]) {
                       '#528B41', '#007E50', '#006F5F', '#9E724D', '#FFBFBC', '#FF8887', '#C35355', '#BD6D94',
                       '#ED808A','#FF9F77', '#0088E8','#5B84B1', '#E5EFFD', '#D5CABD', '#574142', '#A65BA6',
                     '#A1A551', '#C33C4A', '#A7B31E','#F3AA69', '#007F83','#2F4858', '#00605D', '#427037'];
+
+const palette2 = ['#40004b','#762a83','#9970ab','#c2a5cf','#e7d4e8','#d9f0d3','#a6dba0','#5aae61','#1b7837','#00441b',
+'#7f3b08','#b35806','#e08214','#fdb863','#fee0b6','#67001f','#b2182b','#d6604d','#f4a582','#fddbc7',
+'#d1e5f0','#92c5de','#4393c3','#2166ac','#053061','#bababa','#878787','#4d4d4d','#1a1a1a', '#8e0152','#c51b7d','#de77ae']
+const palette=  ["#FF3333" , "#FA422C" ,  "#F55225", "#F0621E", "#EB7217" ,"#E68211",
+                    "#E1910A", "#CA920E", "#AD8F15", "#918C1B" , "#758922", "#588729","#3C8430",
+                     "#2F813F", "#2C7E54", "#2A7B69", "#27787E", "#257593","#2272A8", "#2F7AB9", "#5391C5",
+                     "#76A7D1", "#9ABEDD", "#BED5E9","#E2ECF5", "#FAFAFA", "#E6E6E6", "#D1D1D1", "#BDBDBD", "#A8A8A8","#949494",
+                      "#808080"]
+
+
  const state_abb=["AGS","BC","BCS","CAMP","CHIS","CHIH","COAH","COL","CDMX","DUR","GTO","GUE","HGO","JAL","MICH",
                   "MOR","MEX","NAY","NL","OAX","PUE","QUER","QROO","SLP","SIN","SON","TAB","TAM","TLAX","VER","YUC","ZAC"]
 var dict_colors={}
@@ -184,7 +195,7 @@ console.log(lines_data['Aguascalientes']['abbrev'])
 // console.log(lines_data[0])
 var myColor = d3.scaleOrdinal()
   .domain(Array.from({length: 32}, (v, k) => k+1))
-  .range(d3.schemeSet2);
+  .range(Array.from(palette2));
 //console.log(Array.from({length: 32}, (v, k) => k+1))
 //console.log(Object.keys(lines_data))
 
@@ -262,7 +273,7 @@ svg_map.selectAll(".state")
               .attr("stroke-opacity", alreadyIsActive? .2: .8);
               //console.log(d3.select("#main_g").selectAll(`#state-path-${id}`)).style("fill", function(d){ return myColor(d.id) })
 
-              d3.select("#main_g").selectAll(`#state-label-${id}`).attr("fill", function(d){ return myColor(d.id) })
+              d3.select("#main_g").selectAll(`#state-label-${id}`).attr("fill", alreadyIsActive? "#FF000000" : function(d){ return myColor(d.id) })
               //.attr("fill", function(d){ return myColor(d.id) })
 
 

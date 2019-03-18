@@ -4,9 +4,10 @@ body {
   height: 100%;
   font-family: Karla;
 }
+
 .main{
   display:flex;
-  flex-direction: row-reverse;; /* : row-reverse
+  flex-direction: row-reverse} /* : row-reverse
 }
 /* .low {fill: #90b8da; fill-opacity: .4; }
 .very_low {fill: #d2e2f0; fill-opacity: .4;}
@@ -14,9 +15,10 @@ body {
 .very_high{fill:#2171b5; fill-opacity: .4;} */
 .line {
     fill: none;
-    stroke: #ffaa00;
+    stroke: #999999;
     stroke-width: 1;
 }
+
 .mapcontainer {
   float: right;
 }
@@ -25,9 +27,12 @@ body {
 
 }
 
+.active {
+  fill: red
+}
 
-.highlight {
+/* .highlight {
     fill: none;
     stroke: #000000;
     stroke-width: 1;
-}
+} */
