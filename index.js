@@ -35,7 +35,7 @@ const states = [
 
 const palette2 = ['#40004b','#762a83','#9970ab','#c2a5cf','#e7d4e8','#d9f0d3','#a6dba0','#5aae61','#1b7837','#00441b',
 '#7f3b08','#b35806','#e08214','#fdb863','#fee0b6','#67001f','#b2182b','#d6604d','#f4a582','#fddbc7',
-'#d1e5f0','#92c5de','#4393c3','#2166ac','#053061','#bababa','#878787','#4d4d4d','#1a1a1a', '#8e0152','#c51b7d','#de77ae']
+'#d1e5f0','#92c5de','#4393c3','#842282','#053061','#bababa','#878787','#4d4d4d','#1a1a1a', '#8e0152','#c51b7d','#de77ae']
 
 const colorMap = states.reduce((acc, row, idx) => {
   acc[row] = palette2[idx];
@@ -45,7 +45,8 @@ console.log(colorMap)
 
 
 Promise.all([
-  d3.json('./suicides.json'),
+  // d3.json('./suicides.json'),
+  d3.json('./nationalsuicides.json'),
   d3.json('./mx_geojson.geojson')
 ]).then(function (data){
   myVis(data)
@@ -137,7 +138,7 @@ for (i = 0; i < 32; i++) {
   xAxis.tickSize(0);
   yAxis.tickSize(5);
   yAxis.ticks(5);
-  xAxis.ticks(0);
+  xAxis.ticks(4);
 
   svg_chart.append("g")
      .attr("class", "y axis")
@@ -173,13 +174,6 @@ for (i = 0; i < 32; i++) {
         .attr('text-anchor', 'middle')
         .text("Source: INEGI, CONAPO") ;
 
-  // svg_chart.append("path")
-  //     .datum(data) // Binds data to the line
-  //     .attr("class", "line") // Assign a class for styling
-  //     .attr("d", line(data))
-  //     .attr("fill", "none")// Calls the line generator
-  //     .attr("stroke", '#2171b5');
-  //     .attr("id", "container1");
 
 //var state = svg.createElement("stateid");
 let lines = svg_chart.append("g")
@@ -226,20 +220,17 @@ lines_data['Tlaxcala'].abbrev="TLAX"
 lines_data['Veracruz'].abbrev="VER"
 lines_data['Yucatán'].abbrev="YUC"
 lines_data['Zacatecas'].abbrev="ZAC"
+lines_data['National'].abbrev="NAT"
 
 
-
-console.log(lines_data['Aguascalientes']['abbrev'])
 
 // for (i = 0; i < 32; i++) {
 //  lines_data[i]['abrev'] = state_abb[i];
 // }
 // console.log(lines_data[0])
 var myColor = d3.scaleOrdinal()
-  .domain(Array.from({length: 32}, (v, k) => k+1))
+  .domain(Array.from({length: 33}, (v, k) => k+1))
   .range(Array.from(palette2));
-//console.log(Array.from({length: 32}, (v, k) => k+1))
-//console.log(Object.keys(lines_data))
 
 lines.selectAll(".state-line")
        .data(Object.values(lines_data)).enter()
@@ -253,7 +244,7 @@ lines.selectAll(".state-line")
            )
       .attr( "abbreviation", function(d){return (d['abbrev']);})
         .attr("class", "inactive")
-        .attr("stroke-opacity", .2)
+        .attr("stroke-opacity", 0)
        .attr("fill", "none")
        .attr("stroke-width", 1);
 
@@ -265,7 +256,7 @@ lines.selectAll(".myLabels")
          .append("text")
            //.datum(function(d) {return {name: d[0]["state_name"], value: d[19]['rate'], year: d[19]['year_death'] }; }) // keep only the last value of each time serie
            .datum(function(d) {return {name: d["abbrev"], value: d[19]['rate'], year: d[19]['year_death'], id:d[19]['cve_edo'] }; }) // keep only the last value of each time serie
-           .attr("transform", function(d) { return "translate(" + x_scale(d.year )  + "," + y_scale(d.value) + ")"; }) // Put the text at the position of the last point
+           .attr("transform", function(d) { return "translate(" + x_scale(d.year)  + "," + y_scale(d.value) + ")"; }) // Put the text at the position of the last point
            .attr("x", 3) // shift the text a bit more right
            .attr("y", 5) // shift the text a bit more right
            .attr("id", function(d){return `state-label-${(d.id)}`;})
@@ -283,6 +274,15 @@ lines.selectAll(".myLabels")
           .append("g")
           .attr("transform", `translate(${margin.left}, ${margin.top}) `);
 
+  d3.select("#main_g")
+          .selectAll("#state-path-33")
+          .attr("stroke", "red")
+          .attr("stroke-width", 4)
+          .style("stroke-dasharray", ("3, 3"))
+          .attr("stroke-opacity", .8);
+  d3.select("#main_g")
+            .selectAll("#state-label-33")
+            .attr("fill", "red")
 
 svg_map.selectAll(".state")
           .data(geodata.features)
@@ -293,7 +293,7 @@ svg_map.selectAll(".state")
             .attr("state-name", function(d) { return (d['properties']["NOM_ENT"])}  )
             .attr('stroke', 'white')
             .attr('fill', "#2171b5")
-            .attr("fill-opacity",".4")
+            //.attr("fill-opacity",".8")
             .on("click", function(d){
               //console.log(this)
               var id = d3.select(this).attr('id') //seleccionar el id del estado seleccionado
@@ -311,7 +311,7 @@ svg_map.selectAll(".state")
               .attr("stroke", d => alreadyIsActive? "#D3D3D3" : dict_colors[d3.select(this).attr('id')])
               .attr("stroke-width", alreadyIsActive? 1 : 3.5)
 
-              .attr("stroke-opacity", alreadyIsActive? .2: .8);
+              .attr("stroke-opacity", alreadyIsActive? 0: .8);
               //console.log(d3.select("#main_g").selectAll(`#state-path-${id}`)).style("fill", function(d){ return myColor(d.id) })
 
               d3.select("#main_g")
