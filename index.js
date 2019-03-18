@@ -1,3 +1,47 @@
+const states = [
+  'Aguascalientes',
+  'Baja California',
+  'Baja California Sur',
+  'Campeche',
+  'Coahuila',
+  'Colima',
+  'Chiapas',
+  'Chihuahua',
+  'Distrito Federal',
+  'Durango',
+  'Guanajuato',
+  'Guerrero',
+  'Hidalgo',
+  'Jalisco',
+  'México',
+  'Michoacán',
+  'Morelos',
+  'Nayarit',
+  'Nuevo León',
+  'Oaxaca',
+  'Puebla',
+  'Querétaro',
+  'Quintana Roo',
+  'San Luis Potosí',
+  'Sinaloa',
+  'Sonora',
+  'Tabasco',
+  'Tamaulipas',
+  'Tlaxcala',
+  'Veracruz',
+  'Yucatán',
+  'Zacatecas',
+];
+
+const palette2 = ['#40004b','#762a83','#9970ab','#c2a5cf','#e7d4e8','#d9f0d3','#a6dba0','#5aae61','#1b7837','#00441b',
+'#7f3b08','#b35806','#e08214','#fdb863','#fee0b6','#67001f','#b2182b','#d6604d','#f4a582','#fddbc7',
+'#d1e5f0','#92c5de','#4393c3','#2166ac','#053061','#bababa','#878787','#4d4d4d','#1a1a1a', '#8e0152','#c51b7d','#de77ae']
+
+const colorMap = states.reduce((acc, row, idx) => {
+  acc[row] = palette2[idx];
+  return acc;
+}, {})
+console.log(colorMap)
 
 
 Promise.all([
@@ -25,9 +69,7 @@ function myVis([data,geodata]) {
                                          "#2F813F", "#2C7E54", "#2A7B69", "#27787E", "#257593","#2272A8", "#2F7AB9", "#5391C5",
                                          "#76A7D1", "#9ABEDD", "#BED5E9","#E2ECF5", "#FAFAFA", "#E6E6E6", "#D1D1D1", "#BDBDBD", "#A8A8A8","#949494",
                                           "#808080"]
-const palette2 = ['#40004b','#762a83','#9970ab','#c2a5cf','#e7d4e8','#d9f0d3','#a6dba0','#5aae61','#1b7837','#00441b',
-'#7f3b08','#b35806','#e08214','#fdb863','#fee0b6','#67001f','#b2182b','#d6604d','#f4a582','#fddbc7',
-'#d1e5f0','#92c5de','#4393c3','#2166ac','#053061','#bababa','#878787','#4d4d4d','#1a1a1a', '#8e0152','#c51b7d','#de77ae']
+
 
 
 
@@ -36,7 +78,7 @@ const palette2 = ['#40004b','#762a83','#9970ab','#c2a5cf','#e7d4e8','#d9f0d3','#
 var dict_colors={}
  var i = 0
  for (i = 0; i < 32; i++) {
-  dict_colors[`${i+1}`] = colorRange[i];
+  dict_colors[`${i+1}`] = palette2[i];
 }
 var dict_names={}
 for (i = 0; i < 32; i++) {
@@ -262,16 +304,19 @@ svg_map.selectAll(".state")
               d3.select(this)
               .classed(activeClass, !alreadyIsActive);
               console.log(this);
-              //console.log()
+              d3.select(this).attr("fill", d=> alreadyIsActive? "#2171b5": dict_colors[d3.select(this).attr("id")])
 
               console.log(id)
               d3.select("#main_g").selectAll(`#state-path-${id}`)
-              .attr("stroke", alreadyIsActive? "#D3D3D3" : myColor([d3.select(this).attr('id')]))
+              .attr("stroke", d => alreadyIsActive? "#D3D3D3" : dict_colors[d3.select(this).attr('id')])
               .attr("stroke-width", alreadyIsActive? 1 : 3.5)
+
               .attr("stroke-opacity", alreadyIsActive? .2: .8);
               //console.log(d3.select("#main_g").selectAll(`#state-path-${id}`)).style("fill", function(d){ return myColor(d.id) })
 
-              d3.select("#main_g").selectAll(`#state-label-${id}`).attr("fill", alreadyIsActive? "#FF000000" : function(d){ return myColor(d.id) })
+              d3.select("#main_g")
+                .selectAll(`#state-label-${id}`)
+                .attr("fill", alreadyIsActive? "#FF000000" : function(d){ return dict_colors[(d.id)] })
               //.attr("fill", function(d){ return myColor(d.id) })
 
               });

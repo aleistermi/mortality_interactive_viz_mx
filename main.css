@@ -28,7 +28,8 @@ body {
 }
 
 .active {
-  fill: red
+  fill: "#2171b5",
+  opacity: ".9"
 }
 
 /* .highlight {
