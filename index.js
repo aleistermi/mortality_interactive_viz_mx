@@ -20,15 +20,15 @@ function myVis([data,geodata]) {
                       '#528B41', '#007E50', '#006F5F', '#9E724D', '#FFBFBC', '#FF8887', '#C35355', '#BD6D94',
                       '#ED808A','#FF9F77', '#0088E8','#5B84B1', '#E5EFFD', '#D5CABD', '#574142', '#A65BA6',
                     '#A1A551', '#C33C4A', '#A7B31E','#F3AA69', '#007F83','#2F4858', '#00605D', '#427037'];
-
+  const palette=  ["#FF3333" , "#FA422C" ,  "#F55225", "#F0621E", "#EB7217" ,"#E68211",
+                                        "#E1910A", "#CA920E", "#AD8F15", "#918C1B" , "#758922", "#588729","#3C8430",
+                                         "#2F813F", "#2C7E54", "#2A7B69", "#27787E", "#257593","#2272A8", "#2F7AB9", "#5391C5",
+                                         "#76A7D1", "#9ABEDD", "#BED5E9","#E2ECF5", "#FAFAFA", "#E6E6E6", "#D1D1D1", "#BDBDBD", "#A8A8A8","#949494",
+                                          "#808080"]
 const palette2 = ['#40004b','#762a83','#9970ab','#c2a5cf','#e7d4e8','#d9f0d3','#a6dba0','#5aae61','#1b7837','#00441b',
 '#7f3b08','#b35806','#e08214','#fdb863','#fee0b6','#67001f','#b2182b','#d6604d','#f4a582','#fddbc7',
 '#d1e5f0','#92c5de','#4393c3','#2166ac','#053061','#bababa','#878787','#4d4d4d','#1a1a1a', '#8e0152','#c51b7d','#de77ae']
-const palette=  ["#FF3333" , "#FA422C" ,  "#F55225", "#F0621E", "#EB7217" ,"#E68211",
-                    "#E1910A", "#CA920E", "#AD8F15", "#918C1B" , "#758922", "#588729","#3C8430",
-                     "#2F813F", "#2C7E54", "#2A7B69", "#27787E", "#257593","#2272A8", "#2F7AB9", "#5391C5",
-                     "#76A7D1", "#9ABEDD", "#BED5E9","#E2ECF5", "#FAFAFA", "#E6E6E6", "#D1D1D1", "#BDBDBD", "#A8A8A8","#949494",
-                      "#808080"]
+
 
 
  const state_abb=["AGS","BC","BCS","CAMP","CHIS","CHIH","COAH","COL","CDMX","DUR","GTO","GUE","HGO","JAL","MICH",
@@ -99,7 +99,7 @@ for (i = 0; i < 32; i++) {
 
   svg_chart.append("g")
      .attr("class", "y axis")
-     .attr("transform", "translate(550,0)")
+     .attr("transform", "translate(525,0)")
      .call(yAxis);
   svg_chart
      .append('text')
@@ -114,7 +114,7 @@ for (i = 0; i < 32; i++) {
   svg_chart
   .append('text')
         .attr("class", "label")
-        .attr("y",  577)
+        .attr("y",  565)
         .attr("x", -plotHeight/2 - 50)
         .attr('text-anchor', 'right')
         .attr('font-size', 14)
@@ -217,9 +217,8 @@ lines.selectAll(".state-line")
 
 
 lines.selectAll(".myLabels")
-       .data(Object.values(lines_data))
+       .data(Object.values(lines_data)) // https://www.d3-graph-gallery.com/graph/connectedscatter_multi.html
        .enter()
-       //.attr("otracosa", function(d){return `state-label-${Number(d[0]["cve_edo"])}`;})
          .append('g')
          .append("text")
            //.datum(function(d) {return {name: d[0]["state_name"], value: d[19]['rate'], year: d[19]['year_death'] }; }) // keep only the last value of each time serie
@@ -249,7 +248,6 @@ svg_map.selectAll(".state")
           .append('path')
             .attr("d", geoGenerator)
             .attr("id", function(d) { return Number(d['properties']["CVE_ENT"])}  )
-            // .attr('class', 'highlight')
             .attr("state-name", function(d) { return (d['properties']["NOM_ENT"])}  )
             .attr('stroke', 'white')
             .attr('fill', "#2171b5")
@@ -276,23 +274,8 @@ svg_map.selectAll(".state")
               d3.select("#main_g").selectAll(`#state-label-${id}`).attr("fill", alreadyIsActive? "#FF000000" : function(d){ return myColor(d.id) })
               //.attr("fill", function(d){ return myColor(d.id) })
 
-
-              //console.log(d3.select(this).attr('state-name'))
-              //d3.select("#main_g").selectAll(`#state-path-${id}`).attr("stroke", alreadyIsActive? "#D3D3D3" : dict_colors[d3.select(this).attr('id')])//.classed(activeClass);
-
-              //d3.select("#main_g").selectAll("text").attr("stroke", alreadyIsActive? "transparent" : 'red')//.classed(activeClass);
-
-              // this
-              // .append('text')
-              // .attr('class', 'label')
-              // .attr('x', 47)
-              // .attr('y', 461)
-              // .attr('text-anchor', 'right')
-              // .attr('font-size', 13)
-              // .attr('font-family', 'Karla')
-              // .text("Very Low");
               });
-
+}
               //
 
 
@@ -331,17 +314,3 @@ svg_map.selectAll(".state")
      //   .attr(‘class’, ‘line’)
      //   .attr(‘d’, d => line(d.values))
      //   .style(‘stroke’, (d, i) => Regcolor(i))
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
