@@ -1,10 +1,5 @@
 
 
-//const domReady = require('domready');
-// import {select} from '/d3-selection';
-// import {interpolateInferno} from '/d3-scale-chromatic';
-// import {scaleLinear} from '/d3-scale';
-// "/node_modules/moment/src/moment.js";
 Promise.all([
   d3.json('./suicides.json'),
   d3.json('./mx_geojson.geojson')
@@ -15,7 +10,6 @@ Promise.all([
 function myVis([data,geodata]) {
   console.log(data, geodata)
   // basic plot configurations
-  let highlightedState = 0
   const height = 600;
   const width = 600;
   const margin = {top: 50, left: 50, right: 50, bottom: 50};
@@ -25,7 +19,23 @@ function myVis([data,geodata]) {
   const colorRange = ['#F09D51', '#E77971', '#BF678B', '#85618F','#4E587B', '#2F4858', '#BC9B39','#879536',
                       '#528B41', '#007E50', '#006F5F', '#9E724D', '#FFBFBC', '#FF8887', '#C35355', '#BD6D94',
                       '#ED808A','#FF9F77', '#0088E8','#5B84B1', '#E5EFFD', '#D5CABD', '#574142', '#A65BA6',
-                      '#A1A551', '#C33C4A', '#A7B31E','#F3AA69', '#007F83','#2F4858', '#00605D', '#427037'];
+                    '#A1A551', '#C33C4A', '#A7B31E','#F3AA69', '#007F83','#2F4858', '#00605D', '#427037'];
+ const state_abb=["AGS","BC","BCS","CAMP","CHIS","CHIH","COAH","COL","CDMX","DUR","GTO","GUE","HGO","JAL","MICH",
+                  "MOR","MEX","NAY","NL","OAX","PUE","QUER","QROO","SLP","SIN","SON","TAB","TAM","TLAX","VER","YUC","ZAC"]
+var dict_colors={}
+ var i = 0
+ for (i = 0; i < 32; i++) {
+  dict_colors[`${i+1}`] = colorRange[i];
+}
+var dict_names={}
+for (i = 0; i < 32; i++) {
+ dict_names[`${i+1}`] = state_abb[i];
+}
+ console.log(dict_colors)
+ console.log(dict_names)
+
+ // A color scale: one color for each group
+
 
   const projection = d3.geoAlbers()
   const geoGenerator = d3.geoPath(projection);
@@ -54,14 +64,18 @@ function myVis([data,geodata]) {
       .y(function(d) { return y_scale(d.rate); }) // set the y values for the line generator
       .curve(d3.curveMonotoneX); // apply smoothing to the line
 
+
+  function state_name (data) {return data.state_name}; // apply smoothing to the line
+
   const svg_chart = d3.select(".main")
         	.append("svg") // why  do we append after we define svg?
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
+          .attr("id", "main_g")
           .attr("transform", `translate(${margin.left}, ${margin.top}) `)
 
-  xAxis.tickValues([1998, 2003, 2008, 2013, 2017,]);
+  xAxis.tickValues([1998, 2003, 2008, 2013, 2017]);
   svg_chart.append("g")
       .attr("class", "x axis")
       //.attr("transform", "translate(0," + height + ")")
@@ -74,7 +88,7 @@ function myVis([data,geodata]) {
 
   svg_chart.append("g")
      .attr("class", "y axis")
-     .attr("transform", "translate(500,0)")
+     .attr("transform", "translate(550,0)")
      .call(yAxis);
   svg_chart
      .append('text')
@@ -89,7 +103,7 @@ function myVis([data,geodata]) {
   svg_chart
   .append('text')
         .attr("class", "label")
-        .attr("y",  535)
+        .attr("y",  577)
         .attr("x", -plotHeight/2 - 50)
         .attr('text-anchor', 'right')
         .attr('font-size', 14)
@@ -104,7 +118,7 @@ function myVis([data,geodata]) {
         .attr('font-size', 10)
         .attr('font-family', 'Karla')
         .attr('text-anchor', 'middle')
-        .text("Source: INEGI, CONAPO, ENIGH 2008") ;
+        .text("Source: INEGI, CONAPO") ;
 
   // svg_chart.append("path")
   //     .datum(data) // Binds data to the line
@@ -126,20 +140,87 @@ const lines_data = data.reduce((acc, row) => {
 acc[row.state_name].push(row);
 return acc;
 },{});
-console.log(lines_data);
-// lines.selectAll(".state-line")
-//        .data(Object.values(lines_data)).enter()
-//        // .append("g")
-//        // .attr("class", "state-line")
-//        // .attr("state_id",(data) => (data.cve_edo))
-//        .append("path")
-//        .attr("class", "state-line")
-//        .attr("d", d => line((d)))
-//        .attr("stroke", (d, i) => i % 2 ? 'red' : '#2171b5')
-//        .attr("fill", "none");
-//        .on(“mouseout”, function(d) {
-//            svg.select(“.title-text”).remove();
-//          })
+
+lines_data['Aguascalientes'].abbrev="AGS"
+lines_data['Baja California'].abbrev="BC"
+lines_data['Baja California Sur'].abbrev="BC"
+lines_data['Campeche'].abbrev="CAMP"
+lines_data['Coahuila'].abbrev="COAH"
+lines_data['Colima'].abbrev="COL"
+lines_data['Chiapas'].abbrev="CHIS"
+lines_data['Chihuahua'].abbrev="CHIH"
+lines_data['Distrito Federal'].abbrev="CDMX"
+lines_data['Durango'].abbrev="DUR"
+lines_data['Guanajuato'].abbrev="GTO"
+lines_data['Guerrero'].abbrev="GUER"
+lines_data['Hidalgo'].abbrev="HGO"
+lines_data['Jalisco'].abbrev="JAL"
+lines_data['México'].abbrev="MEX"
+lines_data['Michoacán'].abbrev="MICH"
+lines_data['Morelos'].abbrev="MOR"
+lines_data['Nayarit'].abbrev="NAY"
+lines_data['Nuevo León'].abbrev="NL"
+lines_data['Oaxaca'].abbrev="OAX"
+lines_data['Puebla'].abbrev="PUE"
+lines_data['Querétaro'].abbrev="QUER"
+lines_data['Quintana Roo'].abbrev="QROO"
+lines_data['San Luis Potosí'].abbrev="SLP"
+lines_data['Sinaloa'].abbrev="SIN"
+lines_data['Sonora'].abbrev="SON"
+lines_data['Tabasco'].abbrev="TAB"
+lines_data['Tamaulipas'].abbrev="TAMP"
+lines_data['Tlaxcala'].abbrev="TLAX"
+lines_data['Veracruz'].abbrev="VER"
+lines_data['Yucatán'].abbrev="YUC"
+lines_data['Zacatecas'].abbrev="ZAC"
+
+
+
+console.log(lines_data['Aguascalientes']['abbrev'])
+
+// for (i = 0; i < 32; i++) {
+//  lines_data[i]['abrev'] = state_abb[i];
+// }
+// console.log(lines_data[0])
+var myColor = d3.scaleOrdinal()
+  .domain(Array.from({length: 32}, (v, k) => k+1))
+  .range(d3.schemeSet2);
+//console.log(Array.from({length: 32}, (v, k) => k+1))
+//console.log(Object.keys(lines_data))
+
+lines.selectAll(".state-line")
+       .data(Object.values(lines_data)).enter()
+       .append("path")
+       .attr("class", "state-line")
+       .attr("d", d => line((d)))
+       .attr("stroke", '#D3D3D3')
+       .attr("id", function(d){return `state-path-${Number(d[0]["cve_edo"])}`;}
+         )
+      .attr("name", function(d){return (d[0]["state_name"]);}
+           )
+      .attr( "abbreviation", function(d){return (d['abbrev']);})
+        .attr("class", "inactive")
+        .attr("stroke-opacity", .2)
+       .attr("fill", "none")
+       .attr("stroke-width", 1);
+
+
+lines.selectAll(".myLabels")
+       .data(Object.values(lines_data))
+       .enter()
+       //.attr("otracosa", function(d){return `state-label-${Number(d[0]["cve_edo"])}`;})
+         .append('g')
+         .append("text")
+           //.datum(function(d) {return {name: d[0]["state_name"], value: d[19]['rate'], year: d[19]['year_death'] }; }) // keep only the last value of each time serie
+           .datum(function(d) {return {name: d["abbrev"], value: d[19]['rate'], year: d[19]['year_death'], id:d[19]['cve_edo'] }; }) // keep only the last value of each time serie
+           .attr("transform", function(d) { return "translate(" + x_scale(d.year )  + "," + y_scale(d.value) + ")"; }) // Put the text at the position of the last point
+           .attr("x", 3) // shift the text a bit more right
+           .attr("y", 5) // shift the text a bit more right
+           .attr("id", function(d){return `state-label-${(d.id)}`;})
+          .text(function(d) { return d.name; })
+           .attr ("fill", "none")
+           //.attr("fill", function(d){ return myColor(d.id) })
+           .style("font-size", 15);
 
 
   const svg_map = d3.select(".main")
@@ -150,45 +231,59 @@ console.log(lines_data);
           .append("g")
           .attr("transform", `translate(${margin.left}, ${margin.top}) `);
 
+
 svg_map.selectAll(".state")
           .data(geodata.features)
           .enter()
           .append('path')
             .attr("d", geoGenerator)
-            .attr("id", "container1")
-            .attr('class', 'state')
+            .attr("id", function(d) { return Number(d['properties']["CVE_ENT"])}  )
+            // .attr('class', 'highlight')
+            .attr("state-name", function(d) { return (d['properties']["NOM_ENT"])}  )
             .attr('stroke', 'white')
             .attr('fill', "#2171b5")
-            .on("click", function(data){
-              console.log(data.properties.CVE_ENT);
-              d3.select(this).attr("fill-opacity",".4");
-              lines.selectAll(".state-line")
-                     .data(Object.values(lines_data)).enter()
-                     // .append("g")
-                     //.attr("class", "state-line")
-                     // .attr("state_id",(data) => (data.cve_edo))
-                     .append("path")
-                     .attr("class", "state-line")
-                     .attr("d", d => line((d)))
-                     //.attr("d",function (geodata,data,d){ if (data.cve_edo===geodata.CVE_ENT){
-                     //   line((d))
-                     // }})
-                     .attr("stroke", '#D3D3D3')
-                     .attr("fill-opacity",".4")
-                     //.attr("stroke", (d,i) => i % 2 ? 'red' : '#2171b5')
+            .attr("fill-opacity",".4")
+            .on("click", function(d){
+              //console.log(this)
+              var id = d3.select(this).attr('id') //seleccionar el id del estado seleccionado
+              var activeClass = "active"; //https://jaketrent.com/post/d3-class-operations/
+              var alreadyIsActive = d3.select(this).classed(activeClass);
+              // d3.select(this).
+              // attr('fill', dict_colors[d3.select(this).attr('id')]);
+              d3.select(this)
+              .classed(activeClass, !alreadyIsActive);
+              console.log(this);
+              //console.log()
 
-                     .attr("fill", "none");
-                     // .on(“mouseout”, function(d) {
-                     //     svg.select(“.title-text”).remove();
-                     //   })
-              console.log(this)
-              // svg_chart.append("path")
-              // .datum(data) // Binds data to the line
-              // .attr("class", "line") // Assign a class for styling
-              // .attr("d", line(data))
-              // .attr("fill", "none")// Calls the line generator
-              // .attr("stroke", '#2171b5');
-            })
+              console.log(id)
+              d3.select("#main_g").selectAll(`#state-path-${id}`)
+              .attr("stroke", alreadyIsActive? "#D3D3D3" : myColor([d3.select(this).attr('id')]))
+              .attr("stroke-width", alreadyIsActive? 1 : 3.5)
+              .attr("stroke-opacity", alreadyIsActive? .2: .8);
+              //console.log(d3.select("#main_g").selectAll(`#state-path-${id}`)).style("fill", function(d){ return myColor(d.id) })
+
+              d3.select("#main_g").selectAll(`#state-label-${id}`).attr("fill", function(d){ return myColor(d.id) })
+              //.attr("fill", function(d){ return myColor(d.id) })
+
+
+              //console.log(d3.select(this).attr('state-name'))
+              //d3.select("#main_g").selectAll(`#state-path-${id}`).attr("stroke", alreadyIsActive? "#D3D3D3" : dict_colors[d3.select(this).attr('id')])//.classed(activeClass);
+
+              //d3.select("#main_g").selectAll("text").attr("stroke", alreadyIsActive? "transparent" : 'red')//.classed(activeClass);
+
+              // this
+              // .append('text')
+              // .attr('class', 'label')
+              // .attr('x', 47)
+              // .attr('y', 461)
+              // .attr('text-anchor', 'right')
+              // .attr('font-size', 13)
+              // .attr('font-family', 'Karla')
+              // .text("Very Low");
+              });
+
+              //
+
 
     // done: function(data) {
     //           data.svg_map.selectAll('.datamaps-subunit').on('click', function(geography) {
@@ -225,189 +320,17 @@ svg_map.selectAll(".state")
      //   .attr(‘class’, ‘line’)
      //   .attr(‘d’, d => line(d.values))
      //   .style(‘stroke’, (d, i) => Regcolor(i))
-     //   .style(‘opacity’, lineOpacity)
-     //   .on(“mouseover”, function(d) {
-     //       d3.selectAll(‘.line’)
-     //           .style(‘opacity’, otherLinesOpacityHover);
-     //       d3.selectAll(‘.circle’)
-     //           .style(‘opacity’, circleOpacityOnLineHover);
-     //       d3.select(this)
-     //         .style(‘opacity’, lineOpacityHover)
-     //         .style(“stroke-width”, lineStrokeHover)
-     //         .style(“cursor”, “pointer”);
-     //     })
-     //   .on(“mouseout”, function(d) {
-     //       d3.selectAll(“.line”)
-     //           .style(‘opacity’, lineOpacity);
-     //       d3.select(this)
-     //         .style(“stroke-width”, lineStroke)
-     //         .style(“cursor”, “none”);
-     //     });
 
 
 
 
-            // .on("click", function(){
-            //   d3.select(this).
-            //   style("fill", "#2171b5");});
-  // svg_map.append("g")
-  //     .attr("class", "x axis")
-  //     //.attr("transform", "translate(0," + height + ")")
-  //     .attr("transform", "translate(200, 0)")
-  //     .attr("class", "nothing")
-  //     //.attr("transform", "translate(0," + 100  + ")")
-  //     .attr("transform", "translate(49,0)")
-  //     .call(yAxis);
-
-    //  .call(xAxis);
 
 
-//
-  // svg.selectAll(".dot")
-  //     .data(data)
-  //   .enter().append("circle") // Uses the enter().append() method
-  //     .attr("class", "dot") // Assign a class for styling
-  //     .attr("cx", function(d) { return x_scale(d.year_death) })
-  //     .attr("cy", function(d) { return yScale(d.rate) })
-  //     .attr("r", 5)
-  //       .on("mouseover", function(a, b, c) {
-  //   			console.log(a)
-  //         this.attr('class', 'focus')
-  // 		})
-  //       .on("mouseout", function() {  })
-   // Create an axis component with d3.axisLeft
-  // const circles = svg.selectAll('.circ').data(data);
-  //const states = Object.keys(groups);
-
-// circles.enter()
-//   .append('circle')
-//   .attr("r", 8)
-//   .attr("cx", function(d){ return x_scale(d.year_death) })
-//   .attr("cy", function(d){ return y_scale(d.rate) })
-//   //.attr('fill', "#4C64E8");
-
-  // svg.append('g')
-  //   .call(d3.axisBottom(x_scale))
-  //   .attr('transform', `translate(0, ${plotHeight})`);
-  // svg.append('g').call(d3.axisRight(y_scale));
-  // svg.append('g').call(d3.axisLeft(y_scale))
-  // .call (d3.axisRight(y_scale)).attr('transform', `translate(${plotHeight},0) `);
-  //   svg.append('g')
-  //     .call(d3.axisTop(x_scale))
 
 
-// ADD LABELS. How could I create a function that varies attr, x, y ans text
-//         svg.append('rect')
-//         .attr('class', 'rect very_low')
-//         .attr('height', 15)
-//         .attr('width', 15)
-//         .attr('x', 25)
-//         .attr('y', 450);
-//
-//         svg.append('rect')
-//         .attr('class', 'rect low')
-//         .attr('height', 15)
-//         .attr('width', 15)
-//         .attr('x', 25)
-//         .attr('y', 470);
-//
-//         svg.append('rect')
-//         .attr('class', 'rect high')
-//         .attr('height', 15)
-//         .attr('width', 15)
-//         .attr('x', 25)
-//         .attr('y', 490);
-//
-//         svg.append('rect')
-//         .attr('class', 'rect very_high')
-//         .attr('height', 15)
-//         .attr('width', 15)
-//         .attr('x', 25)
-//         .attr('y', 510);
-// // ADD text. How can I do this with a function too?
-//
-// svg
-// .append('text')
-// .attr('class', 'label')
-// .attr('x', 25)
-// .attr('y', 435)
-// .attr('text-anchor', 'right')
-// .attr('font-size', 14)
-// .attr('font-family', 'Karla')
-// .attr('font-weight', 'bold')
-// .text("Degree of Marginalization");
-//
-//    svg
-//   .append('text')
-//   .attr('class', 'label')
-//   .attr('x', 47)
-//   .attr('y', 461)
-//   .attr('text-anchor', 'right')
-//   .attr('font-size', 13)
-//   .attr('font-family', 'Karla')
-//   .text("Very Low");
-//
-//   svg
-//  .append('text')
-//  .attr('class', 'label')
-//  .attr('x', 47)
-//  .attr('y', 481)
-//  .attr('text-anchor', 'right')
-//  .attr('font-size', 13)
-//  .attr('font-family', 'Karla')
-//  .text("Low");
-//  svg
-// .append('text')
-// .attr('class', 'label')
-// .attr('x', 47)
-// .attr('y', 501)
-// .attr('text-anchor', 'right')
-// .attr('font-size', 13)
-// .attr('font-family', 'Karla')
-// .text("High");
-// svg
-// .append('text')
-// .attr('class', 'label')
-// .attr('x', 47)
-// .attr('y', 521)
-// .attr('text-anchor', 'right')
-// .attr('font-size', 13)
-// .attr('font-family', 'Karla')
-// .text("Very High");
-//
-//  // ADD AXIS TITLES, LABELS AND SOURCING
-//
-//  svg
-//  .append('text')
-//  .attr('class', 'x_axis_label')
-//  .attr('x', (plotWidth-margin.right)/2)
-//  .attr('y',  -22)
-//  .attr('text-anchor', 'right')
-//  .attr('font-size', 11)
-//  .attr('font-family', 'Karla')
-//  .attr('font-weight', 'bold')
-//  .attr('text-anchor', 'middle')
-//  .text("Rate of Suicides (#/100K)") ;
-//
-//
-//  svg.append('text')
-//     .attr("class", "y_axis_label")
-//     .attr("y",-width +15)
-//     .attr("x", height/2 - 60)
-//     .attr('text-anchor', 'right')
-//     .attr('font-size', 11)
-//     .attr("transform", "rotate(90)")
-//     .attr('font-weight', 'bold')
-//     .text("% Expenditure on Alcohol")
-//
-//     svg.append('text')
-//     .attr('class', 'x_axis_label')
-//     .attr('x', (47))
-//     .attr('y',  height )
-//     .attr('text-anchor', 'right')
-//     .attr('font-size', 9)
-//     .attr('font-family', 'Karla')
-//     .attr('text-anchor', 'middle')
-//     .text("Source: INEGI, CONAPO, ENIGH 2008") ;
+
+
+
+
 
     }
