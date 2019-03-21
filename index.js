@@ -27,7 +27,7 @@ function myVis([data,geodata]) {
   // basic plot configurations
   const height = 600;
   const width = 600;
-  const margin = {top: 50, left: 50, right: 50, bottom: 50};
+  const margin = {top: 150, left: 50, right: 50, bottom: 20};
 
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.bottom - margin.top;
@@ -91,8 +91,8 @@ for (i = 0; i < 32; i++) {
 
   const svg_chart = d3.select(".main")
         	.append("svg") // why  do we append after we define svg?
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width + margin.left + margin.right +50)
+            .attr("height", height + margin.top + margin.bottom )
           .append("g")
           .attr("id", "main_g")
           .attr("transform", `translate(${margin.left}, ${margin.top}) `)
@@ -101,7 +101,7 @@ for (i = 0; i < 32; i++) {
   svg_chart.append("g")
       .attr("class", "x axis")
       //.attr("transform", "translate(0," + height + ")")
-      .attr("transform", "translate(0, 500)")
+      .attr("transform", "translate(0, 430)")
       .call(xAxis); // Create an axis component with d3.axisBottom
   xAxis.tickSize(0);
   yAxis.tickSize(5);
@@ -116,7 +116,7 @@ for (i = 0; i < 32; i++) {
      .append('text')
      .attr('class', 'label')
      .attr('x', 300)
-     .attr('y', 550)
+     .attr('y', 470)
      .attr('text-anchor', 'right')
      .attr('font-size', 14)
      .attr('font-family', 'Karla')
@@ -125,8 +125,8 @@ for (i = 0; i < 32; i++) {
   svg_chart
   .append('text')
         .attr("class", "label")
-        .attr("y",  600)
-        .attr("x", -plotHeight/2 - 150)
+        .attr("y",  610)
+        .attr("x", -plotHeight/2 - 100)
         .attr('text-anchor', 'right')
         .attr('font-size', 14)
         .attr("transform", "rotate(-90)")
@@ -354,7 +354,7 @@ var stateshapes = svg_map.selectAll(".state")
 
               d3.select("#main_g")
                 .selectAll(`#state-label-${id}`)
-                .attr("fill", alreadyIsActive ? "#FF000000" : color(d['properties']["Rate_2017"]) )
+                .attr("fill", alreadyIsActive ? "#FF000000" : "black" )
 
               });
 //Source for this code:  http://bl.ocks.org/dougdowson/9832019
@@ -490,7 +490,7 @@ svg_map.append('text')
 svg_chart.append('text')
           .attr('class', 'title')
           .attr('x', 0)
-          .attr('y', height  )
+          .attr('y', height -50  )
           .attr('text-anchor', 'center')
           .attr('font-size', 28)
           .attr('font-family', 'Karla')
