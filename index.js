@@ -25,7 +25,7 @@ Promise.all([
 function myVis([data,geodata]) {
   console.log(data, geodata)
   // basic plot configurations
-  const height = 700;
+  const height = 500;
   const width = 600;
   const margin = {top: 80, left: 50, right: 50, bottom: 20};
 
