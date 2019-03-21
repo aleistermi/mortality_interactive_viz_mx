@@ -69,7 +69,7 @@ for (i = 0; i < 32; i++) {
   const geoGenerator = d3.geoPath(projection);
   console.log(geoGenerator.centroid(geodata))
   projection.fitExtent([[0, 0], [650, 500]], geodata);
-  projection.fitSize([780,560],geodata);
+  projection.fitSize([750,560],geodata);
 
 
   // X SCALE, years
