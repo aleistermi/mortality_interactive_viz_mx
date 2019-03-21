@@ -68,8 +68,8 @@ for (i = 0; i < 32; i++) {
   const projection = d3.geoAlbers()
   const geoGenerator = d3.geoPath(projection);
   console.log(geoGenerator.centroid(geodata))
-  projection.fitExtent([[0, 0], [650, 500]], geodata);
-  projection.fitSize([700,400],geodata);
+  // projection.fitExtent([[0, 0], [100, 500]], geodata);
+  // projection.fitSize([700,400],geodata);
 
 
   // X SCALE, years
