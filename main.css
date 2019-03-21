@@ -7,7 +7,8 @@ body {
 
 .main{
   display:flex;
-  flex-direction: row-reverse} /* : row-reverse
+  flex-direction: row-reverse
+  } /* : row-reverse
 }
 /* .low {fill: #90b8da; fill-opacity: .4; }
 .very_low {fill: #d2e2f0; fill-opacity: .4;}
@@ -31,6 +32,47 @@ body {
   fill: "#2171b5",
   opacity: ".9"
 }
+
+#tooltip {
+  position: absolute;
+  text-align: center;
+  width: 200px;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  padding: 4px;
+  border: 0px;
+  pointer-events: none;
+  opacity: 0.7
+}
+#tooltip.hidden{
+  display:none;
+}
+#tooltip p {
+  margin:0;
+  font-family: Karla
+  font-size:14px
+  line-height:20px;
+
+}
+.tooltip.show {
+  opacity: .3;
+}
+
+#First_quartile {
+  fill: "green"
+}
+
+main[att="First_quartile"] {
+  fill: "yellow";
+}
+
+.First_quartile {fill:#d2e2f0; fill-opacity: .7; }
+.Second_quartile {fill: #90b8da ; fill-opacity: .7;}
+.Third_quartile {fill: #4d8dc3; fill-opacity: .7;}
+.Fourth_quartile{fill: #2171b5 ; fill-opacity: .7;}
+
+body {background-color: #eff3ff;}
 
 /* .highlight {
     fill: none;
