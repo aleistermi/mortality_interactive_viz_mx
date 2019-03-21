@@ -27,7 +27,7 @@ function myVis([data,geodata]) {
   // basic plot configurations
   const height = 500;
   const width = 600;
-  const margin = {top: 80, left: 50, right: 50, bottom: 20};
+  const margin = {top: 80, left: 50, right: 75, bottom: 20};
 
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.bottom - margin.top;
@@ -69,7 +69,7 @@ for (i = 0; i < 32; i++) {
   const geoGenerator = d3.geoPath(projection);
   console.log(geoGenerator.centroid(geodata))
   projection.fitExtent([[0, 0], [650, 500]], geodata);
-  projection.fitSize([750,560],geodata);
+  projection.fitSize([750,450],geodata);
 
 
   // X SCALE, years
@@ -101,7 +101,7 @@ for (i = 0; i < 32; i++) {
   svg_chart.append("g")
       .attr("class", "x axis")
       //.attr("transform", "translate(0," + height + ")")
-      .attr("transform", "translate(0,600)")
+      .attr("transform", "translate(0,400)")
       .call(xAxis); // Create an axis component with d3.axisBottom
   xAxis.tickSize(0);
   yAxis.tickSize(5);
@@ -110,7 +110,7 @@ for (i = 0; i < 32; i++) {
   // todo` once the chart is back, look at the css style for the ticks, write a css style display none for the
   svg_chart.append("g")
      .attr("class", "y axis")
-     .attr("transform", "translate(571,0)")
+     .attr("transform", "translate(555,0)")
      .call(yAxis);
   svg_chart
      .append('text')
