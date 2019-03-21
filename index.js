@@ -25,9 +25,9 @@ Promise.all([
 function myVis([data,geodata]) {
   console.log(data, geodata)
   // basic plot configurations
-  const height = 600;
+  const height = 700;
   const width = 600;
-  const margin = {top: 150, left: 50, right: 50, bottom: 20};
+  const margin = {top: 80, left: 50, right: 50, bottom: 20};
 
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.bottom - margin.top;
@@ -101,7 +101,7 @@ for (i = 0; i < 32; i++) {
   svg_chart.append("g")
       .attr("class", "x axis")
       //.attr("transform", "translate(0," + height + ")")
-      .attr("transform", "translate(0, 430)")
+      .attr("transform", "translate(0,600)")
       .call(xAxis); // Create an axis component with d3.axisBottom
   xAxis.tickSize(0);
   yAxis.tickSize(5);
@@ -116,7 +116,7 @@ for (i = 0; i < 32; i++) {
      .append('text')
      .attr('class', 'label')
      .attr('x', 300)
-     .attr('y', 470)
+     .attr('y', 630)
      .attr('text-anchor', 'right')
      .attr('font-size', 14)
      .attr('font-family', 'Karla')
