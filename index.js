@@ -25,9 +25,9 @@ Promise.all([
 function myVis([data,geodata]) {
   console.log(data, geodata)
   // basic plot configurations
-  const height = 750;
+  const height = 700;
   const width = 600;
-  const margin = {top: 80, left: 50, right: 80, bottom: 20};
+  const margin = {top: 80, left: 50, right: 50, bottom: 20};
 
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.bottom - margin.top;
@@ -68,8 +68,8 @@ for (i = 0; i < 32; i++) {
   const projection = d3.geoAlbers()
   const geoGenerator = d3.geoPath(projection);
   console.log(geoGenerator.centroid(geodata))
-  // projection.fitExtent([[0, 0], [100, 500]], geodata);
-  // projection.fitSize([700,400],geodata);
+  projection.fitExtent([[0, 0], [650, 500]], geodata);
+  projection.fitSize([750,560],geodata);
 
 
   // X SCALE, years
@@ -482,7 +482,7 @@ svg_map
 svg_map.append('text')
               .attr('class', 'title')
               .attr('x', 0)
-              .attr('y', 5  )
+              .attr('y', 0  )
               .attr('text-anchor', 'center')
               .attr('font-size', 28)
               .attr('font-family', 'Karla')
@@ -490,7 +490,7 @@ svg_map.append('text')
 svg_chart.append('text')
           .attr('class', 'title')
           .attr('x', 0)
-          .attr('y', height -50  )
+          .attr('y', height -20  )
           .attr('text-anchor', 'center')
           .attr('font-size', 28)
           .attr('font-family', 'Karla')
