@@ -135,6 +135,10 @@ function myVis([data,geodata]) {
   return acc;
   },{});
 
+  var dataByStateByYear = d3.nest()
+  		.key(function(d) { return d.fips; })
+  		.key(function(d) { return d.year; })
+  		.map(data);
 // Some Brute force here :(
 lines_data['Aguascalientes'].abbrev="AGS";lines_data['Baja California'].abbrev="BC";lines_data['Baja California Sur'].abbrev="BCS";
 lines_data['Campeche'].abbrev="CAMP";lines_data['Coahuila'].abbrev="COAH";lines_data['Colima'].abbrev="COL";lines_data['Chiapas'].abbrev="CHIS";
@@ -221,7 +225,7 @@ var stateshapes = svg_map.selectAll(".state")
             .attr("id", function(d) { return Number(d['properties']["CVE_ENT"])}  )
             .attr("state-name", function(d) { return (d['properties']["NOM_ENT"])}  )
             .attr('stroke', 'black')
-            .attr('fill', function(d) { 
+            .attr('fill', function(d) {
 			           return color(d['properties']["Rate_2017"])})
             .attr("opacity", ".7")
             .on("click", function(d){
@@ -233,7 +237,7 @@ var stateshapes = svg_map.selectAll(".state")
               .classed(activeClass, !alreadyIsActive);
               d3.select(this)
               .attr("fill", d=> alreadyIsActive? color(d['properties']["Rate_2017"]): "grey")
-              .attr("stroke", "white")
+              .attr("stroke", "black")
               .attr("fill-opacity", ".8")
 
               //console.log(id)
@@ -262,8 +266,8 @@ stateshapes.on("mouseover", function(d) {
 			.style("top", (d3.event.pageY - 28) + "px");
 
     d3.select(this)
-    .attr("stroke", "white")
-    .attr("fill-opacity", ".9")}
+    .attr("stroke", "black")
+    .attr("fill-opacity", ".4")}
   )
 		.on("mouseout", function(d) {
 			tooltip.transition()
@@ -383,10 +387,10 @@ svg_chart.append('text')
 
 svg_map.append('text')
                 .attr('class', 'x_axis_label')
-                .attr('x', (10))
+                .attr('x', (30))
                 .attr('y',  height  )
                 .attr('text-anchor', 'right')
-                .attr('font-size', 10)
+                .attr('font-size', 14)
                 .attr('font-family', 'Karla')
                 .attr('text-anchor', 'middle')
                 .text("Source: INEGI, CONAPO") ;
