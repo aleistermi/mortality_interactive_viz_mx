@@ -8,12 +8,7 @@ body {
 .main{
   display:flex;
   flex-direction: row-reverse
-  } /* : row-reverse
-}
-/* .low {fill: #90b8da; fill-opacity: .4; }
-.very_low {fill: #d2e2f0; fill-opacity: .4;}
-.high {fill:#4d8dc3; fill-opacity: .4;}
-.very_high{fill:#2171b5; fill-opacity: .4;} */
+  } /* : row-reverse*/
 .line {
     fill: none;
     stroke: #999999;
@@ -59,9 +54,6 @@ body {
   opacity: .3;
 }
 
-#First_quartile {
-  fill: "green"
-}
 
 main[att="First_quartile"] {
   fill: "yellow";
@@ -72,10 +64,5 @@ main[att="First_quartile"] {
 .Third_quartile {fill: #4d8dc3; fill-opacity: .7;}
 .Fourth_quartile{fill: #2171b5 ; fill-opacity: .7;}
 
-body {background-color: #eff3ff;}
-
-/* .highlight {
-    fill: none;
-    stroke: #000000;
-    stroke-width: 1;
-} */
+/* body {background-color: #eff3ff;} */
+body {background-color: "black";}
