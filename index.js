@@ -386,12 +386,23 @@ svg_chart.append('text')
 
 svg_map.append('text')
                 .attr('class', 'x_axis_label')
-                .attr('x', (30))
+                .attr('x', (105))
                 .attr('y',  height  )
                 .attr('text-anchor', 'right')
                 .attr('font-size', 14)
                 .attr('font-family', 'Karla')
                 .attr('text-anchor', 'middle')
                 .text("Source: INEGI for death certificates, and CONAPO for population") ;
+svg_map.append('text')
+              .attr('class', 'x_axis_label')
+              .attr('x', (126))
+              .attr('y',  height  )
+              .attr('text-anchor', 'right')
+              .attr('font-size', 14)
+              .attr('font-family', 'Karla')
+              .attr('text-anchor', 'middle')
+              .attr("dy", "1em")
+              .text("and CONAPO for population") ;
+
 
 }
