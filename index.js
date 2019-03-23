@@ -16,8 +16,8 @@ const colorMap = states.reduce((acc, row, idx) => {
 
 // Data
 Promise.all([
-  d3.json('./nationalsuicides.json'),
-  d3.json('./mx_geojson2.geojson')
+  d3.json('./data/nationalsuicides.json'),
+  d3.json('./data/mx_geojson2.geojson')
 ]).then(function (data){
   myVis(data)
 })
@@ -232,11 +232,10 @@ var stateshapes = svg_map.selectAll(".state")
               var id = d3.select(this).attr('id')
               var activeClass = "active"; // Source for this part https://jaketrent.com/post/d3-class-operations/
               var alreadyIsActive = d3.select(this).classed(activeClass);
-
               d3.select(this)
               .classed(activeClass, !alreadyIsActive);
               d3.select(this)
-              .attr("fill", d=> alreadyIsActive? color(d['properties']["Rate_2017"]): "grey")
+              .attr("stroke-width", d=> alreadyIsActive? .7: 2.5)
               .attr("stroke", "black")
               .attr("fill-opacity", ".8")
 
@@ -393,5 +392,6 @@ svg_map.append('text')
                 .attr('font-size', 14)
                 .attr('font-family', 'Karla')
                 .attr('text-anchor', 'middle')
-                .text("Source: INEGI, CONAPO") ;
+                .text("Source: INEGI for death certificates, and CONAPO for population") ;
+
 }
